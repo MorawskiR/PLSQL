@@ -1,0 +1,32 @@
+www.oracle.com 
+downloads oracle database express edition i odpowiedni system 
+install 
+Downloads SQL Developer with JDK 8 included 
+download 
+wyodrebnij 
+open sqldeveloper.exe
+kliknąć + z lewej strony  - new connection
+wypełnić connection name - wedle własnego uznania
+Username :
+  SYS 
+  - tworzone automatycznie przy instalacji SQLDEVELOPER
+   -hasło które podaliśmy podczas instalacji
+   - automatycznie zyskują DBA role - database administrator 
+   - pełni wszystkie funkcje administracyjne 
+   -otrzymuje uprawnienia SYSDB (sys as sysdba) - zadania administracyjne na wysokim szczeblu tj. backupy i odzyskiwania
+   -aby zachować integralność tabele są manipulowane przez baze danych 
+   -nie można tworzyć żadnych tabel; 
+   SYSTEM 
+   -wszystkie czynności administracyjne z wyjąkiem kopii zapasowych i aktualizacji bazy 
+   -tworzenie dodatkowych tabel i widoków zawierających informacje administracyjne 
+   -tworzenie wewnętrzenych tabel i widoków używanych przez różne opcje bazy danych oracje i narzędzi
+   -nie używaj dla przecowywania użytecznych tael nie będących administratorami 
+   SYSDBA and SYSOPER System Privileges
+   -to uprawnienia administracyjne wymagane do wykonywania operacji administracyjnych na wysokim szczeblu, takich jak 
+   tworzenie, uruchamianie, zamykanie, tworzenie kopii zapasowych lub odzyskiwanie bazy danych.
+   -dopuszcz dostęp do bazy nawet gdy nie jest ona otwarta 
+   -jeśli masz uprawnienia SYSDBA, możesz połączyć się z bazą danych przy użyciu AS SYSDBA.
+   -Użytkownik SYS automatycznie przyznaje uprawnienia SYSDBA po instalacji. Po zalogowaniu się jako użytkownika SYS 
+   należy nawiązać połączenie z bazą danych jako SYSDBA lub SYSOPER. Połączenie jako użytkownik SYSDBA wywołuje uprawnienie SYSDBA; 
+   Łączenie jako SYSOPER wywołuje uprawnienie SYSOPER. Kontroler bazy danych Oracle Enterprise Manager nie zezwala na 
+   zalogowanie się jako użytkownik SYS bez połączenia jako SYSDBA lub SYSOPER.
