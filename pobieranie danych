@@ -1,0 +1,10 @@
+
+SELECT cena_prod FROM produkty; -- to jest komentarz i nie zostanie wyswietlony
+/*SELECT cena_prod
+FROM produkty;*/ -- komentarz wieloliniowy 
+
+SELECT cena_prod FROM produkty; -- pobieranie danych 
+--stosowanie duzych liter do sów kluczowcych poprawiaczytelność kodu
+SELECT cena_prod, nazwa_prod, id_prod FROM produkty; -- pobranie kolumn o nazwach cena_prod, nazwa_prod, id_prod  z tabelu produkty
+SELECT DISTINCT id_dost FROM produkty; -- zwracanie unikatowych wierszy stosuje sie do wszystkich kolumn a nie do tych poprzedzonych tym sowem
+SELECT produkty.nazwa_prod FROM produkty; -- nazwa kwalifikowana 
