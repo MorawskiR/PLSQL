@@ -1,0 +1,30 @@
+--Sortowanie danych przyużyciu ORDER BY
+SELECT nazwa_prod 
+FROM produkty 
+ORDER BY nazwa_prod; -- wynik posortowany wedug kolumny nazwa_prod
+
+-- we frazie order by można podać kolumne która nie jest zwracana 
+
+SELECT id_prod, nazwa_prod, cena_prod
+FROM produkty 
+ORDER BY cena_prod, nazwa_prod ; -- w przypadku podobnych rekordów cena, sortuję względem nazwy produktu
+
+SELECT id_prod, nazwa_prod, cena_prod
+FROM produkty 
+ORDER BY 2,3; -- sortowanie względem 2 i 3 kolumny nazywane sortowaniem po numerze sekwencji 
+
+-- kierunek sortowania 
+SELECT id_prod, cena_prod, nazwa_prod
+FROM produkty
+ORDER BY cena_prod DESC; -- Descending - malejąco najpierw pojawiają się wartosci najdroższe 
+
+SELECT id_prod, cena_prod, nazwa_prod
+FROM produkty
+ORDER BY cena_prod DESC, nazwa_prod; -- nazwa_prod sortowana alfabetycznie w przypadku równych cen 
+-- gdy chcemy sortowac dla wielu kolumn sowo kluczowe stawiamy po każdej nazwie
+
+SELECT id_prod, cena_prod, nazwa_prod
+FROM produkty
+ORDER BY cena_prod ASC, nazwa_prod; -- sortowanie rosnaco jest ustawione domyslnie, czyli gdy nie wystepuje żadne innesortowanie 
+/*w domyslym zachowaniu oracle "a" jest traktowane na równi z "A", 
+Oracle daje możliwość zmiany tego ustawienia 
