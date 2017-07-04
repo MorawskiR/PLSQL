@@ -1,0 +1,55 @@
+-- stosowanie frazy WHERE - pobieranie interesujących nas danych
+SELECT nazwa_prod, cena_prod 
+FROM produkty 
+WHERE cena_prod = 2.50; -- filtrowanie danych wystepuje zaraz po nazwie tabeli, pobiera wiersze gdzie cena_prod przyjmuje wartosc 2,50 
+-- chcąc użyć frazy ORDER BY należy jej użyć po WHERE 
+/* opoeratory frazy WHERE :
+= równy 
+<> różny  wymiennie z != różny 
+< mniejszy od  
+<= mniejszy lub równy 
+> większy od
+>= większy lub równy
+BETWEEN pomiędzy dwoma wartościami (wącznie)*/
+
+SELECT nazwa_prod , cena_prod 
+FROM produkty 
+WHERE nazwa_prod = 'Lonty -- zwrociolo jeden wiersz 
+
+SELECT nazwa_prod , cena_prod 
+FROM produkty 
+WHERE nazwa_prod = 'lonty'; -- róznica miedzy wielkością liter, nie zwrócono żadnego wiersza 
+
+SELECT nazwa_prod , cena_prod 
+FROM produkty 
+WHERE cena_prod < 10; -- zwrocono wiersze z ceną poniżej 10 
+
+SELECT nazwa_prod , cena_prod 
+FROM produkty 
+WHERE cena_prod <> '1003'; -- wszystkie produkty których nie wprodukowal dostawca 1003;
+
+SELECT nazwa_prod , cena_prod 
+FROM produkty 
+WHERE cena_prod < 10; -- zwrocono wiersze z ceną poniżej 10 
+
+SELECT nazwa_prod , cena_prod 
+FROM produkty 
+WHERE cena_prod <> '1003'; -- wszystkie produkty których nie wprodukowal dostawca 1003; 
+--apostrofy stosujemy do określenia ciągu znaków, do porównywania wartości tekstowych
+-- W przypadku wartości liczbowych apostrofy nie są potrzebne
+
+SELECT  cena_prod, nazwa_prod
+FROM produkty 
+WHERE cena_prod BETWEEN 5 AND 10; -- produkty kótrych cena znajduję się w przedziale od 5 do 10 wącznie ,podanie górnej i dolnej wartości przedzialu
+
+-- Wartość NULL to brak wartości w przeciwieństwie od pola zawierającego wartość 0 lub  spację
+SELECT nazwa_prod
+FROM produkty 
+WHERE cena_prod IS NULL;/*  do sprawdzenie wartosci NULL suży operator IS, 
+zwracana jest lista produktów które nie mają przypisanej ceny  czyli puste pole ale nie cenę wynoszacą 0*/
+
+SELECT kl_id 
+FROM klienci 
+WHERE email_kl IS NULL ; -- zwraca klientów którzy nie podali emaila
+
+-- wartosc NULL oznacza wartosc nieznaną i nie zostanie zwrócona przy zapytaniu filtrujące dane różne od wskazanej 
