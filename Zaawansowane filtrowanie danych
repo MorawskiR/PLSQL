@@ -1,0 +1,44 @@
+-- OPERATORY LOGICZNE , kolejnosć zapytań, IN, NOT IN 
+
+-- AND- do połączenia kilku warunków we frazie WHERE
+
+SELECT id_prod, cena_prod, nazwa_prod
+FROM produkty 
+WHERE id_dost = 1003 AND cena_prod  <= 10 -- dwa warunki polaczone AND 
+ORDER BY ID_PROD;
+
+SELECT id_prod, cena_prod, nazwa_prod
+FROM produkty 
+WHERE id_dost = 1003 AND cena_prod  <= 10  AND nazwa_prod = 'Marchewki'-- laczenie wiecej niz dwa warunki 
+ORDER BY ID_PROD;
+
+-- OR - przeciwieństwo AND 
+SELECT id_dost, nazwa_prod
+FROM produkty 
+WHERE id_dost = 1002 OR id_dost = 1003; -- OR wymaga spelnienia jednego warunku, fraza AND nie zwrócilaby zadnego rekordu 
+-- Kolejność dzialan, AND ma większy priorytet, gdy ważna jest dla nas kolejność należy stosowac nawiasy 
+SELECT nazwa_prod, cena_prod 
+FROM produkty 
+WHERE id_dost = 1002 OR id_dost = 1003 AND cena_prod  >=10; 
+
+SELECT nazwa_prod, cena_prod 
+FROM produkty 
+WHERE (id_dost = 1002 OR id_dost = 1003) AND cena_prod  >=10; 
+
+-- operator IN 
+SELECT cena_prod, nazwa_prod 
+FROM produkty 
+WHERE id_dost IN (1002, 1003) -- zakres warunkow z ktorych dowolny  moze byc spelniony, w tym przypadku podobnie dziala jak OR 
+ORDER BY nazwa_prod; 
+
+/* stosowanie IN
+- do dugich list poprawnych wartosci 
+- w przeciwienstwie do OR i AND panowanie nad kolejnością
+- szybsze dziaanie (dla duższych list)
+- we wnetrzu może stowować instrukcje SELECT */
+
+-- Operator NOT neguje warunek który po nim występuję 
+SELECT nazwa_prod, cena_prod 
+FROM produkty 
+WHERE id_dost NOT IN (1002, 1003) 
+ORDER BY nazwa_prod; 
