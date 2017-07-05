@@ -1,0 +1,101 @@
+-- wyrazenia regularne 
+/* funkcje wykorzystujace wyrazenia regularne 
+-REGEXP_LIKE()
+-REGEXP_REPLACE()
+-REGEXP_INSTR()
+-REGEXP_SUBSTR() */
+
+SELECT nazwa_prod 
+FROM produkty
+WHERE REGEXP_LIKE(nazwa_prod, '1000') -- pobiera wszystkie wiersze w ktorych kolumna nazwa_prod zawiera 1000
+ORDER BY nazwa_prod;
+--zwraca wartosc gdy wiersz jest pobierany 
+
+SELECT nazwa_prod 
+FROM produkty 
+WHERE REGEXP_LIKE(nazwa_prod, '.000') -- . to znak specjalny oznacza dowlny pojedynczy znak 
+ORDER BY nazwa_prod;
+
+/* LIKE a REGEXP_LIKE 
+LIKE szuka dopasowan calej kolumny a REGEXP_LIKE szuka dopasowań w rekordzie */
+
+-- OR w wyrazeniach reguralnych oznaczane jest | 
+
+SELECT nazwa_prod 
+FROM produkty 
+WHERE REGEXP_LIKE(nazwa_prod, '1000|2000') -- dopasuj do jednegolub drugiego 
+ORDER BY nazwa_prod; -- mozna dodac wiecej niz 2 warunki OR 
+
+-- dopasowanie do okreslonego zbioru znakow  [ i ] , i to zbiór znaków 
+
+SELECT nazwa_prod 
+FROM produkty 
+WHERE REGEXP_LIKE(nazwa_prod, '[123] t') -- [123] oznacza dopasuj do 1 lub 2 lub 3 
+ORDER BY nazwa_prod; 
+-- [] to forma OR [123] jest rowne [1|2|3] 
+
+-- stawiajac znak ^ na poczatku mozna zanegowac zbior 
+SELECT nazwa_prod 
+FROM produkty 
+WHERE REGEXP_LIKE(nazwa_prod, '[^123] t') -- dopasowanie wszystkich znakow z wyjatkiem 1, 2 i 3
+ORDER BY nazwa_prod; 
+
+--zbiór moze definiować jeden lub wiecej znaków [0-9] = [0123456789] lub np [3-6], [a-z]
+SELECT nazwa_prod 
+FROM produkty
+WHERE REGEXP_LIKE(nazwa_prod, '[1-5] t')
+ORDER BY nazwa_prod;
+
+-- wyrazenie wyszukujace znaki specjalne 
+SELECT nazwa_dost
+FROM dostawcy
+WHERE REGEXP_LIKE(nazwa_dost, '.') -- . oznacza dowolny znak czyli kazdy wiersz
+ORDER BY nazwa_dost;
+
+-- w celu wyszukania znakow specjalnych poprzedzamy je znakiem \. \a. to znajdz "."
+SELECT nazwa_dost
+FROM dostawcy 
+WHERE REGEXP_LIKE(nazwa_dost, '\.')
+ORDER BY nazwa_dost; 
+
+/* Klasy z znaków 
+\d każda cyfra równe [0-9]
+\D kazdy znak który nie jest cyfra [^0-9]
+\w kazda litera lub cyfra równe [a-zA-Z0-9]
+\W kazdy znak oprocz liter i cyfr [^a-zA-Z0-9]
+\s każdy biay znak
+\S każdy znak który nie jst bialym znakiem  */ 
+
+/* Metaznaki powtorki 
+*  0 lub wiecej znakow
++ 1 lub wiecej dopasowan(woenw {1,}
+?  0 lub 1 dopasowanie (tak jak {0,1}
+{n}  okreslona liczba dopasowan{n,} nie mniej niz okreslona liczba dopasowan
+[n,m} zakres dopasowan */
+
+SELECT nazwa_prod 
+FROM produkty 
+WHERE REGEXP_LIKE(nazwa_prod, '\(\d las\w{2}\)') -- (kazda cyfra, las.. dowolne dwa znaki w miejscu kropek, \( oznacza (
+ORDER BY nazwa_prod;
+
+SELECT nazwa_prod 
+FROM produkty
+WHERE REGEXP_LIKE(nazwa_prod, '\d{4}'); -- wyszukanie 4 nastepujacych po sobie cyfr 
+-- ten zapis jest rowny 
+SELECT nazwa_prod
+FROM produkty 
+WHERE REGEXP_LIKE(nazwa_prod, '[0-9][0-9][0-9][0-9]')
+ORDER BY nazwa_prod ;
+
+/* Metaznaki asercji 
+^ Poczatek tekstu 
+$ koniec tekstu */
+
+SELECT nazwa_prod 
+FROM produkty 
+WHERE REGEXP_LIKE(nazwa_prod, '([0-9]{1})\[ a-z]{2}$')
+ORDER BY nazwa_prod;
+/*
+$ oznacza koniec ciągu. [0-9]{1} jedno wystapienie dowolnej cyfry
+[\ a-z]{2}$ oznacza dopasowanie do spacj lu dowolnej  litery na dwóch ostatnich pozycjach ciągu 
+-- ^ to znak asercji czyli poczatek tekstu oraz znak negacji w ciagu [i] 
