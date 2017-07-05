@@ -1,0 +1,29 @@
+/*Znaki wieloznaczne - slużą do wystapienia pewnej wiekszej grupy znaków 
+operator LIKE używany po frazie WHERE sluzyc do wyszukania inforamacji na podstawie wzorca
+% to dowolna liczba wystąpien znaku */
+
+SELECT id_prod, nazwa_prod
+FROM produkty 
+WHERE nazwa_prod LIKE 'Jet%'; -- wyszukuje wszystkie produkty zaczynajace sie od Jet 
+
+SELECT id_prod, nazwa_prod 
+FROM produkty 
+WHERE nazwa_prod LIKE '%Kowadło%'; -- dowolny tekst zawierający wyraz Kowadło 
+
+-- % zero lub więcej wystapien jakiegokolwiek znaku , NULL nie dopasowuje się do % 
+
+-- znak podkreslenia (_) jedno wystapienie dowlnego znaku 
+
+SELECT id_prod, nazwa_prod 
+FROM produkty 
+WHERE nazwa_pod LIKE 'Kowadło _ t%';
+
+SELECT id_prod, nazwa_prod 
+FROM produkty 
+WHERE nazwa_prod LIKE 'Kowadło % t%';
+
+/*znaki wieloznaczne 
+- nie przesadadzacz liczba znaków 
+-uważac na rozmieszczenia 
+-jezeli jest mozliwosc użyc innego operatoa nalezy to zrobic 
+*/
