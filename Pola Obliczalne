@@ -1,0 +1,41 @@
+-- Pola obliczalne --
+/*
+- do laczenia kolumn w celu uzyskania okreslonego formatu
+- rózna wielkosć liter w kolumnach, co nie pomaga w tworzeniu raportu 
+- kolumna ukazuje pojedyncza cene nie natomiast calego zakupu
+- uzyskanie wartosci laczonej 
+- sa tworzone na bieżaco w programie */
+
+/* Konkatenacja pól - laczenie dwóch kolumn za pomoca dwoch pionowych kresek (||) */ 
+
+SELECT nazwa_dost || ',(' || kraj_dost ||')'
+FROM dostawcy 
+ORDER BY nazwa_dost;  
+
+-- funkcja RTRIM wyrównuje kolumne do lewej (usuwa spacje z prawej strony 
+
+SELECT RTRIM(nazwa_dost) || ',(' || RTRIM(kraj_dost) ||')'
+FROM dostawcy 
+ORDER BY nazwa_dost;  
+--funkcja LTRIM wyrównuje kolumne do prawej (usuwa spacje z lewej strony 
+SELECT LTRIM(nazwa_dost) || ',(' || LTRIM(kraj_dost) ||')'
+FROM dostawcy 
+ORDER BY nazwa_dost;  
+-- funkcja TRIM usuwa spacje z obu stron tekstu 
+SELECT TRIM(nazwa_dost) || ',(' || TRIM(kraj_dost) ||')'
+FROM dostawcy 
+ORDER BY nazwa_dost;  
+--ALIASY -- nowa nazwa tabeli nadana z programu badz nadanie nazwy nowopowstalej kolumnie w wyniku konkatenacji 
+SELECT RTRIM(nazwa_dost) || ',(' || RTRIM(kraj_dost) ||')' AS tytul_dost
+FROM dostawcy 
+ORDER BY nazwa_dost;  
+
+-- pola obliczalne sluza zazwyczaj do obliczen matematycznych 
+SELECT id_prod, ilosc, cena_poz
+FROM pozycje
+WHERE numer_zam = 20005;  -- tabela cena_poz zawiera cene za 1 sztuke elementu w celu obliczenia lacznej kwoty nalezy napisac zapytanie
+
+SELECT id_prod, ilosc, cena_poz, ilosc * cena_poz AS wartosc 
+FROM pozycje 
+ORDER BY ID_PROD; -- obliczenie wartosci dwoch kolumn i utworzenie nowej kolumny z wynikiem 
+
