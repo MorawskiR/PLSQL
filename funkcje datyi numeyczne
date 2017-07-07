@@ -1,0 +1,109 @@
+/* Modyfikacja danych za pomocą funkcji :
+- tekstowe - używane do manipulacji tekstem
+- numeryczne do dzialan matematycznych
+- manipulacja danycmi daty i czasu  
+- funkcje systemowe - zwiazane z szbd ( np o zalogowanych użytkownikach) */
+
+-- Funkcje tekstowe
+-- RTRIM, LTRIM, TRIM 
+SELECT LTRIM(nazwa_dost) || ',(' || LTRIM(kraj_dost) ||')'
+FROM dostawcy 
+ORDER BY nazwa_dost;  
+-- UPPER - zmienia litery na duze
+SELECT nazwa_dost, UPPER(nazwa_dost) AS  nazwa_dost_duze
+FROM dostawcy 
+ORDER BY nazwa_dost;
+
+/* najczestsze funkcje do edycji tekstu
+- LENGTH()  zwraca  dlugosc tekstu
+- LOWER()   konwetuje tekst na zapisany malymi literami 
+- LPAD()    dodaje spacje z lewej strony tekstu 
+- LTRIM()   usuwa spacje z lewej strony tekstu
+- RPAD()   dodaje spacje z prawej strony tekstu
+- RTRIM()   usuwa spacje z prawej strony tekstu 
+- SOUNDEX() zwraca wartosc SOUNDEX tekstu 
+- SUBSTRING() zwraca podzbiór znaków z tekstu
+*/
+SELECT LENGTH('CANDIDE') 
+FROM DUAL;
+SELECT LENGTH('nazwa_dost') AS dlugosc 
+FROM dostawcy; 
+
+SELECT nazwa_kl,kontakt_kl
+FROM klienci 
+WHERE kontakt_kl = 'Y Lie'; -- nie zwraca wartosci 
+SELECT nazwa_kl,kontakt_kl
+FROM klienci 
+WHERE SOUNDEX(kontakt_kl) = SOUNDEX('Y Lie'); -- zwroci jedna wartosc fonetycznie podobna do 'Y Lie' 
+
+-- funkcje daty i czasu 
+-- ADD_MONTH -- Dodaje miesiace do daty(mozna tez odejmowac), jest dwuargumentowy(nazwa kolumny, ilosc miesiecy ktore dodajemy)
+SELECT data_zam 
+FROM zamowienia;
+
+SELECT TO_CHAR(ADD_MONTHS(data_zam, 2))  as nowa, KL_ID
+FROM zamowienia ;
+
+--EXTRACT - wybiera rk, miesiac, godzine, minute lub sekunde z daty i czasu
+
+SELECT KL_ID, EXTRACT(month FROM data_zam) "month"
+FROM zamowienia;
+
+SELECT EXTRACT(year FROM data_zam) "year"
+FROM zamowienia;
+
+SELECT kl_id, numer_zam
+FROM zamowienia
+WHERE EXTRACT(Year FROM data_zam) = 2015
+AND EXTRACT(MONTH FROM data_Zam) = 2; 
+
+-- LAST_DAY() - zwraca ostatni dzien miesiaca, 
+
+SELECT LAST_DAY(data_zam) as ostatni_dzien_miesiaca
+FROM zamowienia; 
+
+-- MONTHS_BETWEEN - zwraca liczbe miesiecy pomiedzy datami
+ 
+SELECT MONTHS_BETWEEN 
+   (TO_DATE('02-02-1995','MM-DD-YYYY'),
+    TO_DATE('01-02-1994','MM-DD-YYYY') ) "Months"
+    FROM DUAL; -- podajemy dwie daty oraz format daty
+-- TO_DATE zamienia tekst na date
+SELECT kl_id, numer_zam, data_zam as nowa
+FROM zamowienia
+WHERE data_zam = TO_DATE('2015-02-01', 'yyyy-mm-dd' ); 
+
+--NEXT_DAY 
+
+SELECT NEXT_DAY(TO_DATE(data_zam,'yyyy-mm-dd'), 'CZWARTEK') "NEXT DAY" 
+FROM zamowienia;
+
+SELECT NEXT_DAY(TO_DATE('15-05-2009' ,'dd-mm-yyyy'),'CZWARTEK') "NEXT DAY" 
+FROM DUAL;
+
+--SYSDATE() - zwraca aktualna date i czas
+SELECT SYSDATE(TO_DATE('YYYY-MM-DD'))
+FROM DUAL;
+SELECT TO_CHAR
+    (SYSDATE, 'MM-DD-YYYY HH24:MI:SS') "NOW"
+     FROM DUAL; -- konwersja na znak argumenty to sktualna data(sysdate) format daty i format godziny)
+     
+-- wyszukiwanie zakresu dat 
+SELECT KL_ID, numer_zam
+FROM zamowienia 
+WHERE data_zam >= TO_DATE('2015-02-02', 'yyyy-mm-dd')
+AND data_zam < TO_DATE('2015-03-02', 'yyyy-mm-dd'); -- wszystkie zamowienia zlozone w lutym
+-- lub za pomocą between
+SELECT KL_ID, numer_zam
+FROM zamowienia 
+WHERE data_zam BETWEEN TO_DATE('2015-02-02', 'yyyy-mm-dd')
+AND TO_DATE('2015-03-02', 'yyyy-mm-dd'); 
+
+/* Funkcje numeryczne 
+ABS() zwraca wartosc bezwzględną liczby
+COS() zwraca cosinus danego kąta
+EXP() zwraca wartosc funkcji wykladniczej podanej liczby 
+MOD() reszte z dzielenia
+SIN() Zwraca sinus danecgo kąta
+SQRT() Zwraca pierwiastek kwadratowy podanej liczby
+TAN() zwraca tanges dla podanego kąta */
