@@ -1,0 +1,49 @@
+/*Funkcje Agregujące - dziaa na zbiorze wierszy i zwraca tylko jedną wartosc*/
+--AVG() srednia wartosc wierszy lub wybranych kolumn, AVG() ignoruje wartosc NULL 
+SELECT AVG(cena_prod) as sr_cena
+FROM produkty; 
+
+SELECT AVG(cena_prod) as sr_cena
+FROM produkty
+WHERE ID_DOST = 1003;
+--COUNT() zwraca liczbe wierszy w kolumnie
+SELECT COUNT(*) as liczba_dostawcow
+FROM dostawcy; -- zlicza wszytsue wiersze niezależnie od NULL, jedynie (*) nie ignoruje NULL
+
+SELECT COUNT(nazwa_prod) -- zlicza kolumny w ktorych wartosc jest != NULL ;(*) 
+FROM produkty;
+
+SELECT COUNT(email_kl) as liczba_klientow
+FROM klienci; -- klieni ktorzy podali email 
+
+--MAX() zwraca najwieksza wartosc
+
+SELECT MAX(cena_prod) AS maks_cena
+FROM produkty; --zwraca najdroższy produkt w kolumnie, NULL jest ignorowane
+
+--MIN() zwraca najmniejsza wartosc
+SELECT MIN(cena_prod) as najmniejsza_cena
+FROM produkty; 
+
+SELECT MIN(nazwa_prod) as najkrotszy
+FROM produkty; -- pobiera równiesz tekst 
+--SUM() Zwraca laczną wartosc w okreslonej kolumnie
+SELECT SUM(cena_prod) as suma
+FROM produkty;
+
+SELECT SUM(ilosc * cena_poz) as laczna_suma
+FROM pozycje
+WHERE numer_zam = 20005;
+
+-- funkcje agregujące z DISTINCT
+
+SELECT AVG(DISTINCT cena_prod) AS sr_cena
+FROM produkty
+WHERE id_dost=1003;
+
+-- kilka funkcji w jednym zapytaniu
+SELECT COUNT(*) "liczba_elementow",
+  MIN(cena_prod) as cena_min,
+  MAX(cena_prod) as cena_maks,
+  AVG(cena_prod) "srednia_cena"
+FROM produkty; 
