@@ -1,0 +1,72 @@
+/* grupowanie danych GROUP BY i HAVING */
+SELECT COUNT(*) AS liczba_prod
+FROM produkty 
+WHERE id_dost = 1003 ; -- liczba produktów dostawcy 1003
+
+--GROUP BY dzieli dane na logiczne zbiory 
+
+SELECT id_dost, COUNT(*) AS Liczba_prod
+FROM produkty
+GROUP BY id_dost; /* GROUP BY sprawia ze SZBD grupuje dane wzgledem id_dost zamiast zbiorowo dl caej tabeli */
+/* GROUP BY 
+- moze zawierac dowolną liczbe kolumn co umozliwia tworzenie zagniezdzonych grup
+- mozliwe uzyskanie danych dla wszystkich wymienionych kolumn 
+- kolumny po frazie musza byc kolumnami pobieranymi z bazy (nie funkcjami)
+- kolumny z  select musza sie znalezc w GROUP BY 
+- jesli grupowana kolumna zawiera NULL tworzy się osoban grupa o nazwie NULL 
+- pojawia sie przed ORDER BY, i po WHERE
+*/
+--HAVING - filtruje grupy, wystepuję po GROUP BY stosuje operatory frazy WHERE 
+
+SELECT kl_id, COUNT(*) AS zamowienia 
+FROM zamowienia
+GROUP BY kl_id
+HAVING COUNT(*) >=2; -- wybiera grupy ktore maja min. 2 zamówienia
+
+/* WHERE A HAVING 
+WHERE filtruje dane przed grupowaniem a HAVING po nim, 
+wiersze eliminowane przez WHERE nie są brane pozniej pod uwage powoduje 
+to zmiane wartosci pol obliczlnych; */ 
+
+SELECT id_dost, COUNT(*) AS liczba_prod
+FROM produkty 
+WHERE cena_prod >= 10 
+GROUP BY id_dost
+HAVING COUNT(*) >=2;
+
+
+SELECT id_dost, COUNT(*) AS liczba_prod
+FROM produkty 
+GROUP BY id_dost
+HAVING COUNT(*) >=2;
+
+SELECT id_dost,  COUNT(*) AS liczba_prod
+FROM produkty 
+GROUP BY id_dost
+HAVING COUNT(*) >=2;
+ 
+SELECT id_prod, cena_prod
+FROM produkty
+GROUP BY id_prod, cena_prod
+HAVING id_prod = 'TNT1';
+
+/* ORDER BY                          GROUP BY 
+- sortuje wygenerowane wyjście        - grupuje wierze, wyjscie nie musi byc posortwane wzgledem grup
+-mozna stosowac dla dowolnych kolumn  - można stoswać tylko wobec zwracanych wartosci lub wyrazen 
+(także niezwracanych)                 - muszą występować wszystkie zwracane kolumny lub wyrażenia
+- stowowane frazy nie zawsze są       - konieczne gdy stusujemy kolumny z funkcjami agregujacymi 
+wymagane */ 
+
+SELECT numer_zam, SUM(ilosc*cena_poz) AS suma_zam
+FROM pozycje 
+GROUP BY numer_zam
+HAVING SUM(ilosc*cena_poz)>= 50
+ORDER BY suma_zam, numer_zam;
+/* Kolejność instrukcji 
+- SELECT zwraca kolumne lub wyrazenie(wymagane)
+-FROM pobieranie danych zawartych w tabelach (wymagane)
+-WHERE filtrowanie wierszy (niewymagane)
+-GROUP BY tworzenie grup (wymagane do obliczania funkcji agregujacych
+- HAVING filtrowanie grup
+- ORDER BY sortowanie wyjścia */ 
+
