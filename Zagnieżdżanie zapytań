@@ -1,0 +1,57 @@
+--Zapytania zagnieżdzone pobieranie danych z dwóch tabel w jednym zapytaniu 
+-- najczesciej stosowane we frazie WHERE z operatorem IN 
+-- wyszukanie klienta ktory zamowil produkt o id TNT2 (2 polecenia)
+SELECT numer_zam 
+FROM pozycje
+WHERE id_prod = 'TNT2';
+
+SELECT kl_id
+FROM zamowienia 
+WHERE numer_zam IN (20005, 20007);
+
+-- jedno polecenie zagnieżdżone
+
+SELECT kl_id
+FROM zamowienia 
+WHERE numer_zam IN (SELECT numer_zam 
+                    FROM pozycje
+                    WHERE id_prod = 'TNT2');
+                    
+-- dwa polecenia zagniezdzone
+SELECT nazwa_kl, kontakt_kl
+FROM klienci 
+WHERE kl_id IN ('10001', '10004');
+
+SELECT nazwa_kl, kontakt_kl
+FROM klienci 
+WHERE kl_id IN(SELECT kl_id 
+                FROM zamowienia
+                WHERE numer_zam IN(SELECT numer_zam 
+                                FROM pozycje 
+                                WHERE id_prod = 'TNT2'));
+-- zapytanie zaczyna od najbardziej zagniezdzonego polecenia
+
+-- Zagniezdzenie jako pole obliczalne 
+-- lączna liczba zamowien zlozonych przez kazdego klienta 
+-- zzgniezdzenie skorelowane 
+SELECT nazwa_kl, 
+      woj_kl,
+      (SELECT COUNT(*) 
+       FROM zamowienia
+       WHERE zamowienia.kl_id = klienci.kl_id ) AS zamowienia
+FROM klienci 
+ORDER BY nazwa_kl;
+
+
+--nazwa tabeli i nazwa kolumny z kropką stosowane gdy występuje niejednoznaczność tabeli .
+SELECT nazwa_kl, 
+      woj_kl,
+      (SELECT COUNT(*) 
+       FROM zamowienia
+       WHERE kl_id = kl_id ) AS zamowienia
+FROM klienci 
+ORDER BY nazwa_kl;
+ -- zapytanie zwróci niepoprawne wyniki poniewaz kolumna kl_id jest porównywana sama ze sobą
+ /* 
+Oprócz zapytanzagniezdzonych we frazach SELECT I WHERE, Oracle możliwia używanie zapytan zagniezdzonych we frazie FROM . Ten typ zapytania w 
+jezyku angeilskim to inline view (widok -wstawka) i można za jego pomocą tworzyc wirtualne tabele. Nie używa się ich cząsto. 
