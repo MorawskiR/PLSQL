@@ -1,0 +1,32 @@
+--Łączenia Tabel - relacyjne bazy danych
+SELECT nazwa_dost, nazwa_prod, cena_prod
+FROM dostawcy, produkty
+WHERE dostawcy.id_dost = produkty.id_dost;
+
+-- Równoważne z  
+SELECT nazwa_dost, nazwa_prod, cena_prod 
+FROM dostawcy INNER JOIN produkty
+ON dostawcy.id_dost = produkty.id_dost;  -- INNER JOIN przedstawia podobny warunek jak WHERE 
+
+--Łączenie wielu tabel
+SELECT cena_prod, nazwa_prod, nazwa_dost, ilosc
+FROM pozycje, dostawcy, produkty
+WHERE dostawcy.id_dost = produkty.id_dost
+ AND pozycje.id_prod = produkty.id_prod
+ AND numer_zam = 20005; 
+
+SELECT nazwa_kl, kontakt_kl
+FROM klienci, zamowienia, pozycje 
+WHERE klienci.kl_id = zamowienia.kl_id
+AND pozycje.numer_zam = zamowienia.numer_zam
+AND id_prod = 'TNT2';
+
+-- TO samo wyrazenie z uzyciem INNER JOIN
+
+SELECT nazwa_kl, kontakt_kl
+FROM klienci 
+INNER JOIN zamowienia ON klienci.kl_id = zamowienia.kl_id
+INNER JOIN pozycje ON pozycje.numer_zam = zamowienia.numer_zam
+WHERE id_prod = 'TNT2';
+
+
