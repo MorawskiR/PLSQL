@@ -1,0 +1,38 @@
+/* Łączenie zapytań, fraza UNION - wiele zapytań SELECT i polaczenie ich w jeden zbiór 
+- gdy chcemy uzyskać podobnie ulozone dane z roznych tabel
+-gdy zwracamy laczne wyniki po przeprowadzeniu roznych zapytań */
+
+-- użycie UNION 
+SELECT cena_prod, id_prod, id_dost
+FROM produkty
+WHERE cena_prod <= 5 
+UNION
+SELECT id_dost, id_prod, cena_prod FROM produkty
+WHERE id_dost IN  (1001,1002); 
+
+/* Zasady stosowania UNION 
+- przynajmniej 2 zapytania SELECT dla każdego kolejnego dodawać slowo UNION
+-musza zwracac te same kolumny 
+- typy kolumn kompatybilne 
+- automatycznie usuwa zduplikowane wiersze 
+
+-- UNION ALL - nie eliminuje powtórzenia wierszy */
+-- UNION ALL nie można zastąpić za pomocą frazy WHERE 
+SELECT id_dost, id_prod, cena_prod
+FROM produkty
+WHERE cena_prod <= 5 
+UNION ALL 
+SELECT id_dost, id_prod, cena_prod
+FROM produkty
+WHERE id_dost IN (1001,1002);
+
+-- Używanie ORDER BY zawsze odbywa sie przy ostatniej instrukcji SELECT we frazie UNION 
+SELECT id_dost, id_prod, cena_prod
+FROM produkty
+WHERE cena_prod <= 5 
+UNION ALL 
+SELECT id_dost, id_prod, cena_prod
+FROM produkty
+WHERE id_dost IN (1001,1002)
+ORDER BY id_dost, cena_prod;
+
