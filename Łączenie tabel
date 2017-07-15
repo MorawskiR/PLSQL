@@ -1,0 +1,78 @@
+--Stosowanie aliasów 
+SELECT nazwa_kl, kontakt_kl
+FROM klienci K, zamowienia Z, pozycje P
+WHERE K.kl_id = Z.kl_id 
+AND P.numer_zam = Z.numer_zam
+AND id_prod = 'TNT2';
+
+--w aliasach dla nazw tabel bazy oracle nie stosuję slowa AS 
+SELECT nazwa_kl, kontakt_kl 
+FROM klienci as K, zamowienia Z, pozycje P -- spowoduje blad
+WHERE K.kl_id = Z.kl_id 
+AND P.numer_zam = Z.numer_zam
+AND id_prod = 'TNT2';
+------------------------------
+
+SELECT nazwa_prod, id_prod 
+FROM produkty 
+WHERE id_dost = (SELECT id_dost 
+                  FROM produkty 
+                  WHERE id_prod = 'DTNTR');
+
+-- to samo zapytanie z użyciem zlączeń 
+
+SELECT nazwa_prod, id_prod 
+FROM produkty, dostawcy 
+WHERE produkty.id_dost = dostawcy.id_dost
+AND id_prod = 'DTNTR';
+
+
+SELECT p.nazwa_prod, p.id_prod 
+FROM produkty p, produkty c
+WHERE c.id_dost = p.id_dost
+AND c.id_prod = 'DTNTR';
+
+SELECT p1.nazwa_prod, p1.id_prod
+FROM produkty p1
+INNER JOIN produkty p2 ON p1.id_dost = p2.id_dost 
+WHERE p2.id_prod = 'DTNTR';
+-- Znak wieloznaczności (*) wybiera kolumny które sa unikalne 
+SELECT K.*, Z.numer_zam, Z.data_zam, P.id_prod,p.ilosc, p.cena_poz
+FROM klienci K, zamowienia Z, POZYCJE P
+WHERE K.kl_id = Z.kl_id
+AND P.numer_zam = Z.numer_zam
+AND id_prod = 'FB'; 
+
+
+SELECT K.*, Z.numer_zam, Z.data_zam, p.id_prod,p.ilosc, p.cena_poz
+FROM klienci K
+INNER JOIN zamowienia Z ON Z.kl_id = K.kl_id
+INNER JOIN pozycje p ON p.numer_zam = Z.numer_zam 
+WHERE id_prod = 'FB'; 
+
+ -- zlaczenie dwoch tabel
+
+SELECT klienci.kl_id, zamowienia.numer_zam
+FROM  klienci
+INNER JOIN ZAMOWIENIA ON klienci.kl_id = zamowienia.kl_id;
+
+-- wieloznacznosc wymieniona tylko dla jednej tabeli gdy nie każdy rekord znajduje sie w tabeli którą laczymy
+SELECT klienci.kl_id, zamowienia.numer_zam
+FROM klienci
+LEFT OUTER JOIN zamowienia ON klienci.kl_id = zamowienia.kl_id;
+
+SELECT klienci.kl_id, zamowienia.numer_zam
+FROM klienci
+RIGHT OUTER JOIN zamowienia ON zamowienia.kl_id = klienci.kl_id;
+--Łączenie tabel z funkcją agregującą 
+
+select KLIENCI.NAZWA_KL, count(zamowienia.numer_zam) as liczba_zam
+FROM klienci INNER JOIN zamowienia
+ON klienci.kl_id = zamowienia.kl_id
+GROUP BY klienci.nazwa_kl;
+
+SELECT * FROM dostawcy;
+SELECT * FROM produkty; 
+SELECT * FROM pozycje;
+SELECT * FROM zamowienia;
+SELECT * FROM klienci; 
